@@ -1,26 +1,172 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────
+   SCHACHSERVICE – Design System  (Tailwind v4 @theme)
+───────────────────────────────────────────────────── */
+@theme {
+  /* Brand Colours */
+  --color-ivory:       #F6F1E8;
+  --color-ivory-soft:  #FAF6EF;
+  --color-gold:        #CDA349;
+  --color-gold-muted:  #B8903A;
+  --color-gold-light:  #E8D48A;
+  --color-navy:        #07111F;
+  --color-slate:       #12355B;
+  --color-muted:       #4F5D73;
+  --color-sky:         #8EC5FF;
+  --color-surface:     #FFFFFF;
+
+  /* Typography */
+  --font-heading: var(--font-playfair), "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body:    var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Border radius */
+  --radius-sm:  0.375rem;
+  --radius-md:  0.75rem;
+  --radius-lg:  1.25rem;
+  --radius-xl:  2rem;
+
+  /* Shadows – deep, premium */
+  --shadow-card:    0 2px 16px rgba(7, 17, 31, 0.07), 0 1px 3px rgba(7,17,31,0.05);
+  --shadow-elegant: 0 4px 32px rgba(7, 17, 31, 0.10), 0 1px 4px rgba(7,17,31,0.06);
+  --shadow-lifted:  0 8px 56px rgba(7, 17, 31, 0.14), 0 2px 8px rgba(7,17,31,0.07);
+  --shadow-deep:    0 16px 80px rgba(7, 17, 31, 0.20), 0 4px 16px rgba(7,17,31,0.10);
+  --shadow-gold:    0 4px 24px rgba(205, 163, 73, 0.36), 0 1px 4px rgba(205,163,73,0.18);
+  --shadow-gold-lg: 0 8px 40px rgba(205, 163, 73, 0.48), 0 2px 10px rgba(205,163,73,0.28);
+  --shadow-nav:     0 1px 40px rgba(7, 17, 31, 0.09), 0 0 0 1px rgba(205,163,73,0.12);
+}
+
+/* ─── Reset & Base ─── */
+*, *::before, *::after { box-sizing: border-box; }
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F6F1E8;
+  --foreground: #07111F;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #F6F1E8;
+  color: #07111F;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.7;
+}
+
+/* ─── Premium selection ─── */
+::selection {
+  background: rgba(205, 163, 73, 0.18);
+  color: #07111F;
+}
+
+/* ─── Focus visible (accessible) ─── */
+:focus-visible {
+  outline: 2px solid #CDA349;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ─── Heading font helper ─── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Smooth scroll ─── */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* ─── Utility overrides ─── */
+.font-heading { font-family: var(--font-heading) !important; }
+.font-body    { font-family: var(--font-body) !important; }
+
+/* ─── Premium divider ─── */
+.divider-gold {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(205,163,73,0.4), transparent);
+}
+
+/* ─── Gold rule accent ─── */
+.rule-gold::after {
+  content: '';
+  display: block;
+  margin-top: 1rem;
+  width: 2.5rem;
+  height: 2px;
+  background: #CDA349;
+}
+
+/* ─── Lenis smooth-scroll body lock ─── */
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ─── Premium hero helpers ─── */
+
+/* Gold shimmer keyframe (used on btn-gold) */
+@keyframes gold-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Subtle entrance for the hero scene SVG */
+@keyframes scene-fade-in {
+  from { opacity: 0; transform: scale(1.015); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.hero-scene-enter {
+  animation: scene-fade-in 1.4s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+/* ─── Blitzangebot pulse animation ─── */
+@keyframes blitz-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 14px rgba(205,163,73,0.40),
+      0 4px 18px rgba(205,163,73,0.30);
+  }
+  50% {
+    box-shadow:
+      0 0 24px rgba(205,163,73,0.62),
+      0 5px 26px rgba(205,163,73,0.48),
+      0 0 40px rgba(205,163,73,0.16);
+  }
+}
+
+@keyframes blitz-ring {
+  0%   { opacity: 0.55; transform: scale(1); }
+  100% { opacity: 0;    transform: scale(1.22); }
+}
+
+.btn-blitz {
+  animation: blitz-glow 2.5s ease-in-out infinite;
+}
+
+.blitz-ring {
+  animation: blitz-ring 2.5s ease-out infinite;
+}
+
+/* Premium card hover lift */
+.card-lift {
+  transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.32s cubic-bezier(0.22,1,0.36,1);
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lifted);
 }
