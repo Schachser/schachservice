@@ -1,303 +1,353 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Phone, ShieldCheck, MapPin, Clock3, Star } from "lucide-react";
-import { LEAD_URL, BLITZANGEBOT_URL } from "@/lib/constants";
+import { ArrowRight, ShieldCheck, Clock, MapPin, Star, CheckCircle } from "lucide-react";
+import { LEAD_URL } from "@/lib/constants";
 
-const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
+/* ─── Motion ─────────────────────────────────────────────────────── */
 
-const fadeUp = {
-  hidden:  { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
-};
+const ease = [0.25, 0.46, 0.45, 0.94] as [number, number, number, number];
 
 const stagger = {
   hidden:  {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.11, delayChildren: 0.18 } },
 };
 
-const trustItems = [
-  { icon: ShieldCheck, text: "Festpreisgarantie" },
-  { icon: ShieldCheck, text: "Vollversichert" },
-  { icon: MapPin,      text: "Kostenlose Besichtigung" },
-  { icon: Clock3,      text: "Antwort noch heute" },
+const rise = {
+  hidden:  { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.72, ease } },
+};
+
+const fadeIn = {
+  hidden:  { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.9, ease } },
+};
+
+/* ─── Trust signals ──────────────────────────────────────────────── */
+
+const trust = [
+  { icon: ShieldCheck, label: "Festpreisgarantie" },
+  { icon: CheckCircle, label: "Vollversichert" },
+  { icon: MapPin,      label: "Kostenlose Besichtigung" },
+  { icon: Clock,       label: "Antwort in 24 Stunden" },
 ];
 
-const stats = [
-  { value: "15+",    label: "Jahre Erfahrung" },
-  { value: "4.9★",   label: "Google-Bewertung" },
-  { value: "5.000+", label: "Umzüge" },
-  { value: "8",      label: "Regionen" },
-];
+/* ─── Component ──────────────────────────────────────────────────── */
 
 export function HeroSection() {
   return (
-    <section className="bg-ivory overflow-hidden">
-      {/* ── Mobile layout (< lg): image card on top, text below ── */}
-      <div className="lg:hidden pt-20">
-        {/* Image card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 1.03 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease }}
-          className="mx-5 mt-5 rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(7,17,31,0.13)]"
-          style={{ aspectRatio: "16/10" }}
-        >
-          <Image
-            src="/images/hero-premium.png"
-            alt="Schachservice Umzugswagen vor dem Mannheimer Wasserturm"
-            fill
-            priority
-            unoptimized
-            sizes="(max-width: 1024px) 95vw, 50vw"
-            className="object-cover"
-            style={{ objectPosition: "center center" }}
-          />
-          {/* Very light scrim for brand identity */}
-          <div className="absolute inset-0 bg-gradient-to-t from-navy/30 via-transparent to-transparent" />
+    <section
+      className="relative flex flex-col lg:flex-row lg:min-h-screen overflow-hidden bg-[#F6F1E8]"
+      aria-label="Willkommen bei SCHACHSERVICE"
+    >
 
-          {/* Rating badge overlay — bottom left of image */}
-          <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/95 backdrop-blur-sm rounded-xl px-3 py-2 shadow-sm">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-3 h-3 text-gold fill-gold" />
-              ))}
-            </div>
-            <span className="font-body text-xs font-semibold text-navy">4.9 · 312 Bewertungen</span>
-          </div>
-        </motion.div>
+      {/* ════════════════════════════════════════════════════════════
+          MOBILE: Rounded image card at the very top
+      ════════════════════════════════════════════════════════════ */}
+      <motion.div
+        variants={fadeIn}
+        initial="hidden"
+        animate="visible"
+        className="lg:hidden relative mt-[72px] mx-4 rounded-[20px] overflow-hidden shadow-[0_12px_48px_rgba(7,17,31,0.14)]"
+        style={{ aspectRatio: "16 / 9" }}
+      >
+        <Image
+          src="/images/hero-premium.png"
+          alt="Schachservice Umzugsteam vor dem Mannheimer Wasserturm"
+          fill
+          priority
+          unoptimized
+          sizes="(max-width: 1024px) 92vw, 0px"
+          className="object-cover object-center"
+        />
 
-        {/* Text content below image */}
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          animate="visible"
-          className="px-5 pt-8 pb-10"
-        >
-          {/* Overline */}
-          <motion.p variants={fadeUp} className="font-body text-[10px] font-bold tracking-[0.3em] uppercase text-gold mb-4">
-            Mannheim · Rhein-Neckar · Seit 2009
-          </motion.p>
+        {/* Warm bottom fade to ivory — no dark overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, transparent 55%, rgba(246,241,232,0.55) 100%)",
+          }}
+        />
 
-          {/* Headline */}
-          <motion.h1
-            variants={fadeUp}
-            className="font-heading text-[2.1rem] font-semibold text-navy leading-[1.08] tracking-[-0.02em] mb-5"
-          >
-            Ihr Umzug.{" "}
-            <br />
-            Unsere Präzision.
-            <br />
-            <span className="text-gold italic">Mannheims Vertrauen.</span>
-          </motion.h1>
-
-          {/* Description */}
-          <motion.p variants={fadeUp} className="font-body text-[0.95rem] leading-relaxed text-navy/60 mb-7">
-            Über 15 Jahre Premium-Umzugsservice in Mannheim und der gesamten Metropolregion.
-            Festpreisgarantie, geprüftes Fachpersonal, vollständiger Rundum-Service.
-          </motion.p>
-
-          {/* CTAs — full width stacked */}
-          <motion.div variants={fadeUp} className="flex flex-col gap-3 mb-7">
-            <a
-              href={BLITZANGEBOT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="blitzangebot_click"
-              className="flex items-center justify-center gap-2 h-13 w-full bg-gold text-navy font-body font-bold text-[0.93rem] rounded-xl hover:bg-gold-muted active:scale-[0.98] transition-all duration-200 shadow-[0_4px_20px_rgba(205,163,73,0.30)]"
-            >
-              ⚡ Blitzangebot erhalten
-            </a>
-            <a
-              href={LEAD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="quote_click"
-              className="flex items-center justify-center gap-2 h-13 w-full bg-white border border-navy/15 text-navy font-body font-semibold text-[0.93rem] rounded-xl hover:border-navy/30 active:scale-[0.98] transition-all duration-200"
-            >
-              Kostenloses Angebot
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href="tel:+4917641726196"
-              className="flex items-center justify-center gap-2 py-3 text-navy/45 font-body text-sm hover:text-navy/70 transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              +49 176 41726196
-            </a>
-          </motion.div>
-
-          {/* Trust badges — 2 column grid */}
-          <motion.div variants={fadeUp} className="grid grid-cols-2 gap-2">
-            {trustItems.map(({ icon: Icon, text }) => (
-              <div
-                key={text}
-                className="flex items-center gap-2 bg-white rounded-xl border border-navy/8 px-3 py-3"
-              >
-                <Icon className="w-4 h-4 text-gold flex-shrink-0" />
-                <span className="font-body text-xs font-medium text-navy/70 leading-tight">{text}</span>
-              </div>
+        {/* Floating rating badge */}
+        <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-xl bg-white/95 backdrop-blur-sm px-3 py-2 shadow-sm">
+          <div className="flex gap-px" aria-label="5 von 5 Sternen">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-3 h-3 fill-[#CDA349] text-[#CDA349]" aria-hidden="true" />
             ))}
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* ── Desktop layout (≥ lg): split panel ── */}
-      <div className="hidden lg:grid lg:grid-cols-[54%_46%] lg:min-h-[92vh] lg:items-center">
-
-        {/* Left: text panel */}
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          animate="visible"
-          className="px-10 xl:px-16 pt-28 pb-20 flex flex-col justify-center"
-        >
-          {/* Overline */}
-          <motion.div variants={fadeUp} className="flex items-center gap-3 mb-7">
-            <span className="h-px w-8 bg-gold" />
-            <span className="font-body text-[10px] font-bold tracking-[0.32em] uppercase text-gold/80">
-              Mannheim · Rhein-Neckar · Seit 2009
-            </span>
-          </motion.div>
-
-          {/* Rating row */}
-          <motion.div variants={fadeUp} className="flex items-center gap-2.5 mb-8">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-3.5 h-3.5 text-gold fill-gold" />
-              ))}
-            </div>
-            <span className="font-body text-sm font-medium text-navy/55">
-              4.9 · 312 geprüfte Kundenbewertungen
-            </span>
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1
-            variants={fadeUp}
-            className="font-heading text-[clamp(3rem,4.2vw,5rem)] font-semibold text-navy leading-[1.0] tracking-[-0.03em] mb-8"
-          >
-            Ihr Umzug.
-            <br />
-            Unsere Präzision.
-            <br />
-            <em className="not-italic text-gold">Ihr Vertrauen.</em>
-          </motion.h1>
-
-          {/* Description */}
-          <motion.p variants={fadeUp} className="font-body text-[1.06rem] leading-[1.8] text-navy/58 max-w-[480px] mb-10">
-            Über 15 Jahre Premium-Umzugsservice in Mannheim und der gesamten
-            Metropolregion. Festpreisgarantie, geprüftes Fachpersonal und ein
-            vollständiger Rundum-Service — damit Ihr Neuanfang stressfrei gelingt.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4 mb-10">
-            <a
-              href={BLITZANGEBOT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="blitzangebot_click"
-              className="inline-flex items-center gap-2 h-13 px-8 bg-gold text-navy font-body font-bold text-[0.93rem] rounded-xl hover:bg-gold-muted active:scale-[0.98] transition-all duration-200 shadow-[0_4px_24px_rgba(205,163,73,0.32)]"
-            >
-              ⚡ Blitzangebot erhalten
-            </a>
-            <a
-              href={LEAD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="quote_click"
-              className="inline-flex items-center gap-2 h-13 px-7 bg-white border border-navy/15 text-navy font-body font-semibold text-[0.93rem] rounded-xl hover:border-navy/30 active:scale-[0.98] transition-all duration-200"
-            >
-              Kostenloses Angebot
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href="tel:+4917641726196"
-              className="inline-flex items-center gap-1.5 text-navy/40 font-body text-sm hover:text-navy/65 transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              +49 176 41726196
-            </a>
-          </motion.div>
-
-          {/* Stats row */}
-          <motion.div variants={fadeUp} className="grid grid-cols-4 gap-4 max-w-[460px]">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col gap-1">
-                <span className="font-heading text-2xl font-semibold text-navy">{stat.value}</span>
-                <span className="font-body text-[10px] font-medium text-navy/45 leading-snug">{stat.label}</span>
-              </div>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Right: image card */}
-        <motion.div
-          initial={{ opacity: 0, x: 32 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.95, delay: 0.15, ease }}
-          className="relative h-full min-h-[92vh] flex items-center pr-8 xl:pr-12 py-10"
-        >
-          {/* Main image */}
-          <div className="relative w-full h-[78vh] rounded-[2rem] overflow-hidden shadow-[0_24px_80px_rgba(7,17,31,0.16)]">
-            <Image
-              src="/images/hero-premium.png"
-              alt="Schachservice Umzugswagen vor dem Mannheimer Wasserturm"
-              fill
-              priority
-              unoptimized
-              sizes="46vw"
-              className="object-cover"
-              style={{ objectPosition: "center center" }}
-            />
-            {/* Subtle bottom gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-navy/25 via-transparent to-transparent" />
-
-            {/* Trust chip inside image */}
-            <div className="absolute top-6 right-6 flex items-center gap-2 bg-white/94 backdrop-blur-sm rounded-xl px-4 py-2.5 shadow-sm">
-              <ShieldCheck className="w-4 h-4 text-gold" />
-              <span className="font-body text-xs font-semibold text-navy">Vollversichert</span>
-            </div>
           </div>
-
-          {/* Floating trust card */}
-          <motion.div
-            className="absolute -left-5 bottom-24 bg-white rounded-2xl px-5 py-4 shadow-[0_8px_40px_rgba(7,17,31,0.12)] border border-navy/6 w-[210px]"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 1.0, ease }}
-          >
-            <p className="font-body text-[9px] font-bold tracking-[0.22em] uppercase text-gold mb-2">
-              Festpreis möglich
-            </p>
-            <p className="font-heading text-base font-semibold text-navy leading-tight">
-              Ruhig geplant. Stark umgesetzt.
-            </p>
-            <div className="mt-3 pt-3 border-t border-navy/6 flex items-center justify-between">
-              <div className="flex gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3 h-3 text-gold fill-gold" />
-                ))}
-              </div>
-              <span className="font-body text-[10px] font-semibold text-navy/50">4.9 / 5</span>
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* ── Trust strip — below hero on both layouts ── */}
-      <div className="border-t border-navy/6 bg-white">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8 py-4 hidden sm:flex items-center justify-center gap-8 flex-wrap">
-          {trustItems.map(({ icon: Icon, text }) => (
-            <div key={text} className="flex items-center gap-2">
-              <Icon className="w-4 h-4 text-gold" />
-              <span className="font-body text-xs font-semibold text-navy/60">{text}</span>
-            </div>
-          ))}
+          <span className="font-body text-[11px] font-semibold text-[#07111F]">
+            4.9 · 312 Bewertungen
+          </span>
         </div>
-      </div>
+      </motion.div>
+
+      {/* ════════════════════════════════════════════════════════════
+          TEXT PANEL  (full width mobile / left 53% desktop)
+      ════════════════════════════════════════════════════════════ */}
+      <motion.div
+        variants={stagger}
+        initial="hidden"
+        animate="visible"
+        className={[
+          /* mobile */
+          "relative z-10 flex flex-col justify-center",
+          "px-5 pt-8 pb-28",
+          /* desktop */
+          "lg:w-[53%] lg:min-h-screen lg:px-14 xl:px-20 lg:pt-32 lg:pb-24",
+          /* ivory background */
+          "bg-[#F6F1E8]",
+        ].join(" ")}
+      >
+        {/* Overline */}
+        <motion.div variants={rise} className="flex items-center gap-3 mb-8">
+          <span className="h-px w-7 bg-[#CDA349]" aria-hidden="true" />
+          <span className="font-body text-[10px] font-bold tracking-[0.32em] uppercase text-[#CDA349]/90">
+            Mannheim · Metropolregion Rhein-Neckar · Seit 2009
+          </span>
+        </motion.div>
+
+        {/* Rating — desktop only */}
+        <motion.div
+          variants={rise}
+          className="hidden lg:flex items-center gap-3 mb-8"
+        >
+          <div className="flex gap-0.5" aria-label="4.9 von 5 Sternen">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-4 h-4 fill-[#CDA349] text-[#CDA349]" aria-hidden="true" />
+            ))}
+          </div>
+          <span className="font-body text-sm font-medium text-[#07111F]/55">
+            4.9 · 312 geprüfte Google-Bewertungen
+          </span>
+        </motion.div>
+
+        {/* Headline */}
+        <motion.h1
+          variants={rise}
+          className={[
+            "font-heading font-semibold text-[#07111F] leading-[1.05] tracking-[-0.025em]",
+            "text-[2.2rem] mb-5",
+            "lg:text-[clamp(3.2rem,4.4vw,5.2rem)] lg:mb-7",
+          ].join(" ")}
+        >
+          Ihr Umzug.
+          <br />
+          In besten{" "}
+          <em className="not-italic text-[#CDA349]">Händen.</em>
+        </motion.h1>
+
+        {/* Sub-headline */}
+        <motion.p
+          variants={rise}
+          className={[
+            "font-body leading-[1.8] text-[#07111F]/62",
+            "text-[0.95rem] mb-8 max-w-[38ch]",
+            "lg:text-[1.06rem] lg:mb-10",
+          ].join(" ")}
+        >
+          Festpreisgarantie, geprüftes Fachpersonal und persönliche Betreuung
+          von Anfang bis Ende — der Umzugspartner, dem Mannheim seit
+          über 15 Jahren vertraut.
+        </motion.p>
+
+        {/* CTA Group */}
+        <motion.div
+          variants={rise}
+          className="flex flex-col gap-3 mb-10 sm:flex-row sm:items-center lg:mb-12"
+        >
+          {/* Primary */}
+          <motion.a
+            href={LEAD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-event="quote_click"
+            whileHover={{ scale: 1.025, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 380, damping: 22 }}
+            className={[
+              "inline-flex items-center justify-center gap-2.5",
+              "h-14 w-full sm:w-auto px-8",
+              "bg-[#CDA349] text-[#07111F]",
+              "font-body font-bold text-[0.93rem] tracking-wide",
+              "rounded-xl",
+              "shadow-[0_4px_24px_rgba(205,163,73,0.38)]",
+              "hover:bg-[#B8903A]",
+              "transition-colors duration-200",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CDA349] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F6F1E8]",
+            ].join(" ")}
+          >
+            Kostenloses Angebot anfragen
+            <ArrowRight className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+          </motion.a>
+
+          {/* Secondary */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 380, damping: 22 }}
+          >
+            <Link
+              href="/leistungen"
+              className={[
+                "inline-flex items-center justify-center gap-2",
+                "h-14 w-full sm:w-auto px-7",
+                "border border-[#07111F]/18 text-[#07111F]",
+                "font-body font-medium text-[0.93rem]",
+                "rounded-xl bg-white/60",
+                "hover:border-[#07111F]/35 hover:bg-white/90",
+                "transition-all duration-200",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#07111F]/30",
+              ].join(" ")}
+            >
+              Leistungen ansehen
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        {/* Trust strip */}
+        <motion.div variants={rise}>
+          {/* Mobile: 2×2 grid */}
+          <div className="grid grid-cols-2 gap-2.5 lg:hidden">
+            {trust.map(({ icon: Icon, label }) => (
+              <div
+                key={label}
+                className="flex items-center gap-2.5 rounded-xl border border-[#07111F]/8 bg-white/70 px-3.5 py-3"
+              >
+                <Icon className="w-4 h-4 flex-shrink-0 text-[#CDA349]" aria-hidden="true" />
+                <span className="font-body text-[11.5px] font-medium text-[#07111F]/72 leading-tight">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: inline separator row */}
+          <div className="hidden lg:flex items-center gap-0 flex-wrap">
+            {trust.map(({ icon: Icon, label }, i) => (
+              <span key={label} className="flex items-center">
+                <span className="flex items-center gap-2 py-1">
+                  <Icon className="w-3.5 h-3.5 text-[#CDA349]" aria-hidden="true" />
+                  <span className="font-body text-[12.5px] font-medium text-[#07111F]/60">
+                    {label}
+                  </span>
+                </span>
+                {i < trust.length - 1 && (
+                  <span
+                    className="mx-4 h-3 w-px bg-[#07111F]/15 flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                )}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* ════════════════════════════════════════════════════════════
+          DESKTOP: Full-height image column (right side)
+      ════════════════════════════════════════════════════════════ */}
+      <motion.div
+        variants={fadeIn}
+        initial="hidden"
+        animate="visible"
+        className="hidden lg:block relative flex-1"
+      >
+        <Image
+          src="/images/hero-premium.png"
+          alt="Schachservice Umzugsteam in Mannheim"
+          fill
+          priority
+          unoptimized
+          sizes="47vw"
+          className="object-cover object-center"
+        />
+
+        {/* Left-edge feather — blends image into the ivory panel */}
+        <div
+          className="absolute inset-y-0 left-0 w-24 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to right, #F6F1E8 0%, rgba(246,241,232,0.3) 40%, transparent 100%)",
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Subtle bottom vignette for depth */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-40 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(7,17,31,0.28) 0%, transparent 100%)",
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Badge — top right */}
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, duration: 0.6, ease }}
+          className="absolute top-8 right-8 flex items-center gap-2 rounded-xl bg-white/92 backdrop-blur-sm px-4 py-2.5 shadow-sm border border-white/60"
+        >
+          <ShieldCheck className="w-4 h-4 text-[#CDA349]" aria-hidden="true" />
+          <span className="font-body text-[12px] font-semibold text-[#07111F]">
+            Geprüfter Fachbetrieb
+          </span>
+        </motion.div>
+
+        {/* Floating testimonial card — bleeds left into text panel */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1.15, duration: 0.7, ease }}
+          className="absolute bottom-14 -left-5 w-[230px] rounded-2xl bg-white border border-[#07111F]/6 p-5 shadow-[0_12px_48px_rgba(7,17,31,0.14)]"
+        >
+          {/* Stars */}
+          <div className="flex gap-0.5 mb-3" aria-label="5 Sterne Bewertung">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-3.5 h-3.5 fill-[#CDA349] text-[#CDA349]" aria-hidden="true" />
+            ))}
+          </div>
+
+          <p className="font-heading text-[13.5px] font-normal italic leading-snug text-[#07111F] mb-4">
+            &bdquo;Kein Stress, kein Kratzer, alles perfekt organisiert.&ldquo;
+          </p>
+
+          <div className="flex items-center gap-2.5 pt-3 border-t border-[#07111F]/6">
+            <div className="w-7 h-7 rounded-full bg-[#F6F1E8] flex items-center justify-center flex-shrink-0">
+              <span className="font-heading text-[10px] font-semibold text-[#CDA349]">MK</span>
+            </div>
+            <div>
+              <p className="font-body text-[11px] font-semibold text-[#07111F] leading-none">
+                M. König
+              </p>
+              <p className="font-body text-[10px] text-[#07111F]/45 mt-0.5">
+                Google · Mannheim
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Stat card — lower right */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.3, duration: 0.6, ease }}
+          className="absolute bottom-14 right-8 rounded-2xl bg-[#07111F]/82 backdrop-blur-sm border border-white/10 px-5 py-4 text-right"
+        >
+          <p className="font-heading text-[2rem] font-semibold text-white leading-none">
+            5.000<span className="text-[#CDA349]">+</span>
+          </p>
+          <p className="font-body text-[10.5px] font-medium text-white/55 mt-1 tracking-wide uppercase">
+            Erfolgreiche Umzüge
+          </p>
+        </motion.div>
+      </motion.div>
+
     </section>
   );
 }
