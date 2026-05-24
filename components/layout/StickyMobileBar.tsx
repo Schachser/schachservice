@@ -54,7 +54,7 @@ export function StickyMobileBar() {
           rel="noopener noreferrer"
           data-event="blitzangebot_click"
           aria-label="Blitzangebot erhalten"
-          className="btn-blitz relative flex flex-col items-center justify-center gap-1 py-3.5 bg-gold text-navy hover:bg-gold-muted transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-inset"
+          className="flex flex-col items-center justify-center gap-1 py-3.5 bg-gold text-navy hover:bg-gold-muted transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-inset"
         >
           <Zap className="w-5 h-5 fill-navy/20" aria-hidden="true" />
           <span className="font-body text-[10px] font-bold tracking-wide">Blitzangebot</span>

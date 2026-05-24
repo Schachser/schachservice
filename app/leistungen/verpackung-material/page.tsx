@@ -64,12 +64,8 @@ export default function VerpackungMaterialPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
       {/* Hero */}
-      <section className="bg-navy pt-36 pb-24 relative overflow-hidden">
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{ background: "radial-gradient(circle at 80% 20%, rgba(205,163,73,0.14), transparent 50%)" }}
-        />
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
+      <section className="bg-navy pt-36 pb-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
             <Link href="/leistungen" className="font-body text-xs text-ivory/40 hover:text-gold transition-colors">
               Leistungen

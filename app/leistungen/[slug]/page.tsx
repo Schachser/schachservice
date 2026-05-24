@@ -172,13 +172,13 @@ export default async function ServicePage({ params }: Props) {
             unoptimized
             quality={100}
             sizes="100vw"
-            className="object-cover brightness-[0.76] contrast-[1.12] saturate-[1.08]"
+            className="object-cover brightness-[0.82] contrast-[1.05] saturate-[1.04]"
             style={{ objectPosition: "center center" }}
           />
         </div>
 
         {/* Single overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07111F]/88 via-[#07111F]/52 to-[#07111F]/12" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07111F]/75 via-[#07111F]/40 to-[#07111F]/5" aria-hidden="true" />
 
         {/* Content */}
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 w-full">
@@ -201,7 +201,7 @@ export default async function ServicePage({ params }: Props) {
               /* Blitzangebot as primary CTA for express services */
               <span className="relative inline-flex shrink-0">
                 <span
-                  className="blitz-ring absolute -inset-[3px] rounded-full bg-gold/30 pointer-events-none"
+                  className="hidden"
                   aria-hidden="true"
                 />
                 <a
@@ -209,7 +209,7 @@ export default async function ServicePage({ params }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-event="blitzangebot_click"
-                  className="btn-blitz relative inline-flex items-center gap-2 h-12 px-8 bg-gold text-navy font-body font-bold text-sm rounded-full transition-all duration-300 hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 h-12 px-8 bg-gold text-navy font-body font-bold text-sm rounded-xl transition-all duration-200 hover:bg-gold-muted hover:-translate-y-0.5"
                 >
                   <Zap className="w-4 h-4 fill-navy/20" aria-hidden="true" />
                   Blitzangebot erhalten
@@ -267,7 +267,7 @@ export default async function ServicePage({ params }: Props) {
               </div>
               <span className="relative inline-flex shrink-0">
                 <span
-                  className="blitz-ring absolute -inset-[3px] rounded-full bg-gold/30 pointer-events-none"
+                  className="hidden"
                   aria-hidden="true"
                 />
                 <a
@@ -275,7 +275,7 @@ export default async function ServicePage({ params }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-event="blitzangebot_click"
-                  className="btn-blitz relative inline-flex items-center gap-2.5 h-12 px-8 rounded-full bg-gold text-navy font-body font-bold text-sm whitespace-nowrap transition-all duration-300 hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2.5 h-12 px-8 rounded-xl bg-gold text-navy font-body font-bold text-sm whitespace-nowrap transition-all duration-200 hover:bg-gold-muted hover:-translate-y-0.5"
                 >
                   <Zap className="w-4 h-4 fill-navy/20" aria-hidden="true" />
                   Jetzt Blitzangebot anfordern

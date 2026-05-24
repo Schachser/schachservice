@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Menu, X, Phone, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { LEAD_URL } from "@/lib/constants";
-import { BlitzangebotButton } from "@/components/ui/BlitzangebotButton";
 
 const navItems = [
   {
@@ -82,34 +81,34 @@ const navItems = [
 ] as const;
 
 const simpleItems = [
-  { label: "Preise",    href: "/preise" },
-  { label: "Über uns",  href: "/ueber-uns" },
-  { label: "Kontakt",   href: "/kontakt" },
+  { label: "Preise",   href: "/preise" },
+  { label: "Über uns", href: "/ueber-uns" },
+  { label: "Kontakt",  href: "/kontakt" },
 ];
 
-const premiumEase = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const dropdownVariants = {
-  hidden:  { opacity: 0, y: -8, scale: 0.98 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.22, ease: premiumEase } },
-  exit:    { opacity: 0, y: -6, scale: 0.98, transition: { duration: 0.15, ease: "easeIn" as const } },
+  hidden:  { opacity: 0, y: -6, scale: 0.98 },
+  visible: { opacity: 1, y: 0,  scale: 1, transition: { duration: 0.2, ease } },
+  exit:    { opacity: 0, y: -4, scale: 0.98, transition: { duration: 0.14, ease: "easeIn" as const } },
 };
 
 const mobileMenuVariants = {
   hidden:  { opacity: 0, x: "100%" },
-  visible: { opacity: 1, x: "0%", transition: { duration: 0.35, ease: premiumEase } },
-  exit:    { opacity: 0, x: "100%", transition: { duration: 0.25, ease: "easeIn" as const } },
+  visible: { opacity: 1, x: "0%", transition: { duration: 0.32, ease } },
+  exit:    { opacity: 0, x: "100%", transition: { duration: 0.22, ease: "easeIn" as const } },
 };
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]             = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen]         = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 48);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
@@ -121,36 +120,35 @@ export function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  const openDropdown = (label: string) => {
+  const openDropdown  = (label: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setActiveDropdown(label);
   };
-
   const scheduleClose = () => {
-    closeTimer.current = setTimeout(() => setActiveDropdown(null), 140);
+    closeTimer.current = setTimeout(() => setActiveDropdown(null), 130);
   };
 
   return (
     <>
       <motion.header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-[rgba(7,17,31,0.82)] backdrop-blur-[18px] border-b border-white/[0.06] shadow-[0_12px_40px_rgba(0,0,0,0.22)]"
-            : "bg-[rgba(7,17,31,0.58)] backdrop-blur-[18px] border-b border-white/[0.06] shadow-[0_12px_40px_rgba(0,0,0,0.18)]"
+            ? "bg-white shadow-[0_1px_20px_rgba(7,17,31,0.08)] border-b border-navy/6"
+            : "bg-white/96 backdrop-blur-sm border-b border-navy/5"
         )}
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.55, ease }}
       >
         <nav
-          className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-between h-16"
+          className="mx-auto max-w-7xl px-5 lg:px-8 flex items-center justify-between h-16"
           aria-label="Hauptnavigation"
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
             <ChessKnightLogo className="w-7 h-7 text-gold transition-transform duration-300 group-hover:scale-105" />
-            <span className="font-heading text-[0.95rem] font-semibold tracking-widest text-ivory uppercase">
+            <span className="font-heading text-[0.92rem] font-semibold tracking-widest text-navy uppercase">
               Schachservice
             </span>
           </Link>
@@ -166,10 +164,10 @@ export function Navbar() {
               >
                 <button
                   className={cn(
-                    "flex items-center gap-1 px-4 py-2 text-sm font-body font-medium tracking-wide rounded-md transition-colors duration-200",
+                    "flex items-center gap-1 px-3.5 py-2 text-sm font-body font-medium rounded-lg transition-colors duration-200",
                     activeDropdown === item.label
-                      ? "text-gold"
-                      : "text-white/70 hover:text-gold"
+                      ? "text-gold bg-gold/5"
+                      : "text-navy/65 hover:text-navy hover:bg-navy/4"
                   )}
                   aria-expanded={activeDropdown === item.label}
                   aria-haspopup="true"
@@ -191,26 +189,24 @@ export function Navbar() {
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[680px] bg-surface rounded-xl shadow-lifted border border-navy/8 p-6 grid grid-cols-3 gap-6"
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[660px] bg-white rounded-xl shadow-[0_8px_40px_rgba(7,17,31,0.12)] border border-navy/6 p-6 grid grid-cols-3 gap-6"
                       onMouseEnter={() => openDropdown(item.label)}
                       onMouseLeave={scheduleClose}
                     >
                       {item.columns.map((col) => (
                         <div key={col.heading}>
-                          <p className="text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-muted mb-3">
+                          <p className="text-[10px] font-body font-bold tracking-[0.2em] uppercase text-gold/80 mb-3">
                             {col.heading}
                           </p>
-                          <ul className="space-y-1">
+                          <ul className="space-y-0.5">
                             {col.items.map((link) => (
                               <li key={link.href}>
                                 <Link
                                   href={link.href}
-                                  className="flex items-center gap-2 text-sm font-body text-navy hover:text-gold transition-colors duration-150 py-0.5 group"
+                                  className="flex items-center gap-2 text-sm font-body text-navy/65 hover:text-navy py-1 px-2 rounded-md hover:bg-navy/3 transition-all duration-150 group"
                                   onClick={() => setActiveDropdown(null)}
                                 >
-                                  <span className="w-0 overflow-hidden group-hover:w-3 transition-all duration-200">
-                                    <ArrowRight className="w-3 h-3 text-gold" />
-                                  </span>
+                                  <ArrowRight className="w-3 h-3 text-gold opacity-0 group-hover:opacity-100 -ml-1 group-hover:ml-0 transition-all duration-150" />
                                   {link.label}
                                 </Link>
                               </li>
@@ -228,7 +224,7 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-4 py-2 text-sm font-body font-medium tracking-wide text-white/70 hover:text-gold rounded-md transition-colors duration-200"
+                className="px-3.5 py-2 text-sm font-body font-medium text-navy/65 hover:text-navy hover:bg-navy/4 rounded-lg transition-colors duration-200"
               >
                 {item.label}
               </Link>
@@ -240,32 +236,26 @@ export function Navbar() {
             <a
               href="tel:+4917641726196"
               data-event="phone_click"
-              aria-label="Jetzt anrufen: +49 176 41726196"
-              className="flex items-center gap-2 text-[0.8rem] font-body text-white/42 hover:text-white/75 transition-colors duration-300"
+              aria-label="Jetzt anrufen"
+              className="flex items-center gap-1.5 text-[0.78rem] font-body font-medium text-navy/50 hover:text-navy/80 transition-colors duration-200"
             >
-              <Phone className="w-3.5 h-3.5" aria-hidden="true" />
-              <span className="tracking-wide">+49 176 41726196</span>
+              <Phone className="w-3.5 h-3.5" />
+              <span>+49 176 41726196</span>
             </a>
             <a
               href={LEAD_URL}
               target="_blank"
               rel="noopener noreferrer"
               data-event="quote_click"
-              aria-label="Kostenloses Angebot anfragen"
-              className="inline-flex items-center gap-2 h-8 px-4
-                border border-white/18 text-white/65 text-xs font-body font-medium tracking-wide rounded-md
-                hover:border-white/32 hover:text-white/90
-                transition-all duration-300
-                focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+              className="inline-flex items-center gap-1.5 h-9 px-5 bg-navy text-ivory text-xs font-body font-semibold rounded-lg hover:bg-slate transition-all duration-200"
             >
               Angebot anfragen
             </a>
-            <BlitzangebotButton size="sm" />
           </div>
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden flex items-center justify-center w-10 h-10 rounded-md text-ivory/80 hover:text-gold transition-colors duration-200"
+            className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg text-navy/70 hover:text-navy hover:bg-navy/5 transition-colors duration-200"
             onClick={() => setMobileOpen(true)}
             aria-label="Menü öffnen"
           >
@@ -278,50 +268,53 @@ export function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <>
+            {/* Backdrop */}
             <motion.div
-              className="fixed inset-0 z-40 bg-navy/40 backdrop-blur-sm"
+              className="fixed inset-0 z-40 bg-navy/20 backdrop-blur-[2px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.2 }}
               onClick={() => setMobileOpen(false)}
             />
+
+            {/* Panel */}
             <motion.div
               variants={mobileMenuVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed top-0 right-0 bottom-0 z-50 w-[85vw] max-w-sm bg-[rgba(7,17,31,0.96)] backdrop-blur-xl shadow-[0_0_80px_rgba(0,0,0,0.6)] flex flex-col border-l border-white/6"
+              className="fixed top-0 right-0 bottom-0 z-50 w-[88vw] max-w-[340px] bg-white flex flex-col shadow-[0_0_60px_rgba(7,17,31,0.18)]"
             >
-              <div className="flex items-center justify-between px-6 h-16 border-b border-white/6">
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 h-16 border-b border-navy/6">
                 <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2">
-                  <ChessKnightLogo className="w-7 h-7 text-gold" />
-                  <span className="font-heading text-[0.9rem] font-semibold tracking-widest text-ivory uppercase">
+                  <ChessKnightLogo className="w-6 h-6 text-gold" />
+                  <span className="font-heading text-[0.88rem] font-semibold tracking-widest text-navy uppercase">
                     Schachservice
                   </span>
                 </Link>
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center w-9 h-9 rounded-md text-white/55 hover:text-gold transition-colors"
+                  className="flex items-center justify-center w-8 h-8 rounded-lg text-navy/45 hover:text-navy hover:bg-navy/5 transition-colors"
                   aria-label="Menü schließen"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4.5 h-4.5" />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto py-4">
+              {/* Links */}
+              <div className="flex-1 overflow-y-auto">
                 {navItems.map((item) => (
-                  <div key={item.label} className="border-b border-white/5">
+                  <div key={item.label} className="border-b border-navy/5">
                     <button
-                      onClick={() =>
-                        setMobileExpanded(mobileExpanded === item.label ? null : item.label)
-                      }
-                      className="flex w-full items-center justify-between px-6 py-4 text-base font-body font-medium text-white/75 hover:text-gold transition-colors"
+                      onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
+                      className="flex w-full items-center justify-between px-5 py-4 text-[0.93rem] font-body font-semibold text-navy hover:text-gold transition-colors"
                     >
                       {item.label}
                       <ChevronDown
                         className={cn(
-                          "w-4 h-4 transition-transform duration-200",
+                          "w-4 h-4 text-navy/35 transition-transform duration-200",
                           mobileExpanded === item.label && "rotate-180"
                         )}
                       />
@@ -332,19 +325,19 @@ export function Navbar() {
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.22 }}
+                          transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          <div className="px-6 pb-4 space-y-1">
+                          <div className="px-5 pb-3 space-y-0.5">
                             {item.columns.flatMap((col) =>
                               col.items.map((link) => (
                                 <Link
                                   key={link.href}
                                   href={link.href}
                                   onClick={() => setMobileOpen(false)}
-                                  className="flex items-center gap-2 py-2 text-sm text-white/45 hover:text-gold transition-colors"
+                                  className="flex items-center gap-2.5 py-2 px-2 text-sm text-navy/60 hover:text-gold rounded-lg hover:bg-gold/5 transition-colors"
                                 >
-                                  <ArrowRight className="w-3 h-3 text-gold/50" />
+                                  <ArrowRight className="w-3 h-3 text-gold/50 flex-shrink-0" />
                                   {link.label}
                                 </Link>
                               ))
@@ -361,23 +354,21 @@ export function Navbar() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center px-6 py-4 text-base font-body font-medium text-white/75 hover:text-gold transition-colors border-b border-white/5"
+                    className="flex items-center px-5 py-4 text-[0.93rem] font-body font-semibold text-navy hover:text-gold transition-colors border-b border-navy/5"
                   >
                     {item.label}
                   </Link>
                 ))}
               </div>
 
-              <div className="p-6 border-t border-white/6 space-y-3">
+              {/* Bottom CTAs */}
+              <div className="p-5 border-t border-navy/6 space-y-2.5 bg-ivory/50">
                 <a
                   href="tel:+4917641726196"
                   data-event="phone_click"
-                  aria-label="Jetzt anrufen: +49 176 41726196"
-                  className="flex items-center justify-center gap-2 w-full h-11 rounded-lg border border-white/12 text-white/60 text-sm font-medium
-                    hover:border-white/25 hover:text-white/90 transition-all duration-300
-                    focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+                  className="flex items-center justify-center gap-2 w-full h-11 rounded-xl border border-navy/15 text-navy text-sm font-body font-medium hover:border-navy/30 hover:bg-white transition-all duration-200"
                 >
-                  <Phone className="w-4 h-4" aria-hidden="true" />
+                  <Phone className="w-4 h-4 text-navy/50" />
                   +49 176 41726196
                 </a>
                 <a
@@ -385,21 +376,11 @@ export function Navbar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-event="quote_click"
-                  aria-label="Kostenloses Angebot anfragen"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center w-full h-11 px-6
-                    border border-gold/35 text-gold/85 text-sm font-body font-medium tracking-wide rounded-lg
-                    hover:border-gold/60 hover:text-gold
-                    transition-all duration-300
-                    focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/40"
+                  className="flex items-center justify-center w-full h-11 px-6 bg-gold text-navy text-sm font-body font-bold rounded-xl hover:bg-gold-muted transition-all duration-200"
                 >
-                  Angebot anfragen
+                  Kostenloses Angebot anfragen
                 </a>
-                <BlitzangebotButton
-                  size="md"
-                  wrapperClassName="w-full"
-                  className="w-full justify-center rounded-xl"
-                />
               </div>
             </motion.div>
           </>

@@ -133,33 +133,8 @@ html.lenis { height: auto; }
   animation: scene-fade-in 1.4s cubic-bezier(0.22,1,0.36,1) both;
 }
 
-/* ─── Blitzangebot pulse animation ─── */
-@keyframes blitz-glow {
-  0%, 100% {
-    box-shadow:
-      0 0 14px rgba(205,163,73,0.40),
-      0 4px 18px rgba(205,163,73,0.30);
-  }
-  50% {
-    box-shadow:
-      0 0 24px rgba(205,163,73,0.62),
-      0 5px 26px rgba(205,163,73,0.48),
-      0 0 40px rgba(205,163,73,0.16);
-  }
-}
-
-@keyframes blitz-ring {
-  0%   { opacity: 0.55; transform: scale(1); }
-  100% { opacity: 0;    transform: scale(1.22); }
-}
-
-.btn-blitz {
-  animation: blitz-glow 2.5s ease-in-out infinite;
-}
-
-.blitz-ring {
-  animation: blitz-ring 2.5s ease-out infinite;
-}
+/* ─── Mobile overflow guard ─── */
+body { overflow-x: hidden; }
 
 /* Premium card hover lift */
 .card-lift {
