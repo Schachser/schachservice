@@ -4,36 +4,41 @@
    SCHACHSERVICE – Design System  (Tailwind v4 @theme)
 ───────────────────────────────────────────────────── */
 @theme {
-  /* Brand Colours */
-  --color-ivory:       #F6F1E8;
-  --color-ivory-soft:  #FAF6EF;
-  --color-gold:        #CDA349;
-  --color-gold-muted:  #B8903A;
-  --color-gold-light:  #E8D48A;
-  --color-navy:        #07111F;
-  --color-slate:       #12355B;
-  --color-muted:       #4F5D73;
-  --color-sky:         #8EC5FF;
-  --color-surface:     #FFFFFF;
+  /* ── Core brand palette ── */
+  --color-ivory:       #F6F1E8;   /* warm page background          */
+  --color-ivory-soft:  #FAF6EF;   /* slightly lighter ivory        */
+  --color-ivory-card:  #FFFDF9;   /* card surface, near-white warm */
+  --color-gold:        #CDA349;   /* champagne gold — primary CTA  */
+  --color-gold-muted:  #B8903A;   /* hover / active state          */
+  --color-gold-light:  #E8D48A;   /* on-dark gold text             */
+  --color-navy:        #07111F;   /* deep navy — main text         */
+  --color-navy-deep:   #0B1624;   /* darkest navy for CTA blocks   */
+  --color-slate:       #12355B;   /* secondary blue accent         */
+  --color-muted:       #4F5D73;   /* body secondary text           */
+  --color-gray-cool:   #6B7280;   /* lighter muted / captions      */
+  --color-border:      #DDD4C7;   /* sand-warm border              */
+  --color-sky:         #8EC5FF;   /* occasional highlight          */
+  --color-surface:     #FFFFFF;   /* pure white surfaces           */
 
-  /* Typography */
+  /* ── Typography ── */
   --font-heading: var(--font-playfair), "Playfair Display", Georgia, "Times New Roman", serif;
   --font-body:    var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
 
-  /* Border radius */
+  /* ── Radii ── */
   --radius-sm:  0.375rem;
   --radius-md:  0.75rem;
   --radius-lg:  1.25rem;
   --radius-xl:  2rem;
 
-  /* Shadows – deep, premium */
-  --shadow-card:    0 2px 16px rgba(7, 17, 31, 0.07), 0 1px 3px rgba(7,17,31,0.05);
-  --shadow-elegant: 0 4px 32px rgba(7, 17, 31, 0.10), 0 1px 4px rgba(7,17,31,0.06);
-  --shadow-lifted:  0 8px 56px rgba(7, 17, 31, 0.14), 0 2px 8px rgba(7,17,31,0.07);
-  --shadow-deep:    0 16px 80px rgba(7, 17, 31, 0.20), 0 4px 16px rgba(7,17,31,0.10);
-  --shadow-gold:    0 4px 24px rgba(205, 163, 73, 0.36), 0 1px 4px rgba(205,163,73,0.18);
-  --shadow-gold-lg: 0 8px 40px rgba(205, 163, 73, 0.48), 0 2px 10px rgba(205,163,73,0.28);
-  --shadow-nav:     0 1px 40px rgba(7, 17, 31, 0.09), 0 0 0 1px rgba(205,163,73,0.12);
+  /* ── Shadows ── */
+  --shadow-card:    0 2px 16px rgba(7,17,31,0.07),  0 1px 3px rgba(7,17,31,0.05);
+  --shadow-elegant: 0 4px 32px rgba(7,17,31,0.10),  0 1px 4px rgba(7,17,31,0.06);
+  --shadow-lifted:  0 8px 56px rgba(7,17,31,0.14),  0 2px 8px rgba(7,17,31,0.07);
+  --shadow-deep:    0 16px 80px rgba(7,17,31,0.20),  0 4px 16px rgba(7,17,31,0.10);
+  --shadow-gold:    0 4px 24px rgba(205,163,73,0.36), 0 1px 4px rgba(205,163,73,0.18);
+  --shadow-gold-lg: 0 8px 40px rgba(205,163,73,0.48), 0 2px 10px rgba(205,163,73,0.28);
+  --shadow-float:   0 12px 48px rgba(7,17,31,0.13),  0 2px 8px rgba(7,17,31,0.07);
+  --shadow-nav:     0 1px 40px rgba(7,17,31,0.09),   0 0 0 1px rgba(205,163,73,0.12);
 }
 
 /* ─── Reset & Base ─── */
