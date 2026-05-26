@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Phone, MapPin, Mail, ArrowRight, Clock, Shield } from "lucide-react";
 import { LEAD_URL, WHATSAPP_URL } from "@/lib/constants";
+import { useLang } from "@/context/LanguageProvider";
 
 const services = [
   { label: "Privatumzug",      href: "/leistungen/lokalumzug" },
@@ -39,13 +42,24 @@ const legal = [
   { label: "AGB",         href: "/agb" },
 ];
 
-const hours = [
-  { day: "Mo – Fr",  time: "07:00 – 19:00 Uhr" },
-  { day: "Samstag",  time: "08:00 – 16:00 Uhr" },
-  { day: "Sonntag",  time: "Geschlossen" },
-];
-
 export function Footer() {
+  const { t } = useLang();
+
+  const hours = [
+    { dayKey: "footer.hours_mf",  time: "07:00 – 19:00 Uhr" },
+    { dayKey: "footer.hours_sat", time: "08:00 – 16:00 Uhr" },
+    { dayKey: "footer.hours_sun", timeKey: "footer.hours_closed" },
+  ];
+
+  const trustItems = [
+    "footer.trust_local",
+    "footer.trust_ontime",
+    "footer.trust_ins",
+    "footer.trust_gdpr",
+    "footer.trust_staff",
+    "footer.trust_exp",
+  ];
+
   return (
     <footer className="bg-navy text-ivory/80" aria-label="Fußzeile">
 
@@ -53,8 +67,8 @@ export function Footer() {
       <div className="border-b border-ivory/8">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <p className="font-heading text-base font-semibold text-ivory">Bereit für Ihren Umzug?</p>
-            <p className="font-body text-sm text-ivory/50 mt-0.5">Kostenloses Festpreisangebot in 24 Stunden.</p>
+            <p className="font-heading text-base font-semibold text-ivory">{t("footer.strip_headline")}</p>
+            <p className="font-body text-sm text-ivory/50 mt-0.5">{t("footer.strip_sub")}</p>
           </div>
           <div className="flex items-center gap-3 flex-wrap justify-center">
             <a
@@ -65,7 +79,7 @@ export function Footer() {
               aria-label="Kostenloses Angebot anfragen"
               className="inline-flex items-center gap-2 h-10 px-6 rounded-lg bg-gold text-navy text-sm font-body font-semibold hover:bg-gold-muted transition-all duration-200 shadow-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
             >
-              Angebot anfragen <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+              {t("footer.strip_cta")} <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </a>
             <a
               href={WHATSAPP_URL}
@@ -150,33 +164,35 @@ export function Footer() {
               <div className="flex items-center gap-2 mb-3">
                 <Clock className="w-3.5 h-3.5 text-gold/60" aria-hidden="true" />
                 <p className="font-body text-[10px] font-semibold tracking-[0.18em] uppercase text-gold/70">
-                  Öffnungszeiten
+                  {t("footer.hours_label")}
                 </p>
               </div>
               <dl className="space-y-1">
-                {hours.map(({ day, time }) => (
-                  <div key={day} className="flex items-center justify-between gap-6">
-                    <dt className="font-body text-xs text-ivory/50 w-16">{day}</dt>
-                    <dd className={`font-body text-xs font-medium ${time === "Geschlossen" ? "text-ivory/30" : "text-ivory/70"}`}>
-                      {time}
-                    </dd>
-                  </div>
-                ))}
+                {hours.map((h) => {
+                  const day  = t(h.dayKey);
+                  const time = "timeKey" in h ? t(h.timeKey!) : h.time;
+                  const closed = "timeKey" in h;
+                  return (
+                    <div key={h.dayKey} className="flex items-center justify-between gap-6">
+                      <dt className="font-body text-xs text-ivory/50 w-16">{day}</dt>
+                      <dd className={`font-body text-xs font-medium ${closed ? "text-ivory/30" : "text-ivory/70"}`}>
+                        {time}
+                      </dd>
+                    </div>
+                  );
+                })}
               </dl>
             </div>
 
             {/* Trust badges */}
             <div className="flex flex-wrap gap-2 pt-1">
-              {[
-                { icon: Shield, text: "Festpreisgarantie" },
-                { icon: Shield, text: "Vollversichert" },
-              ].map(({ icon: Icon, text }) => (
+              {(["footer.trust_fixed", "footer.trust_insured"] as const).map((key) => (
                 <span
-                  key={text}
+                  key={key}
                   className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-body font-semibold tracking-wider uppercase text-gold border border-gold/20 rounded-full"
                 >
-                  <Icon className="w-3 h-3" aria-hidden="true" />
-                  {text}
+                  <Shield className="w-3 h-3" aria-hidden="true" />
+                  {t(key)}
                 </span>
               ))}
             </div>
@@ -185,7 +201,7 @@ export function Footer() {
           {/* Services */}
           <div className="lg:col-span-1">
             <p className="text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-gold mb-5">
-              Leistungen
+              {t("footer.col_services")}
             </p>
             <ul className="space-y-2" role="list">
               {services.map((s) => (
@@ -205,7 +221,7 @@ export function Footer() {
           {/* Regions */}
           <div className="lg:col-span-1">
             <p className="text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-gold mb-5">
-              Regionen
+              {t("footer.col_regions")}
             </p>
             <ul className="space-y-2" role="list">
               {regions.map((r) => (
@@ -225,7 +241,7 @@ export function Footer() {
           {/* Company */}
           <div className="lg:col-span-1">
             <p className="text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-gold mb-5">
-              Unternehmen
+              {t("footer.col_company")}
             </p>
             <ul className="space-y-2" role="list">
               {company.map((c) => (
@@ -245,20 +261,13 @@ export function Footer() {
           {/* Local trust column */}
           <div className="lg:col-span-1">
             <p className="text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-gold mb-5">
-              Vertrauen
+              {t("footer.col_trust")}
             </p>
             <ul className="space-y-3" role="list">
-              {[
-                "Lokales Mannheimer Team",
-                "Pünktlichkeitsversprechen",
-                "Versicherter Transport",
-                "Datenschutz-konform",
-                "Geprüfte Fachkräfte",
-                "15+ Jahre Erfahrung",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
+              {trustItems.map((key) => (
+                <li key={key} className="flex items-center gap-2">
                   <span className="w-1 h-1 rounded-full bg-gold/60 flex-shrink-0" aria-hidden="true" />
-                  <span className="font-body text-xs text-ivory/55">{item}</span>
+                  <span className="font-body text-xs text-ivory/55">{t(key)}</span>
                 </li>
               ))}
             </ul>
@@ -274,7 +283,7 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p className="font-body text-xs text-ivory/35">
-          © {new Date().getFullYear()} SCHACHSERVICE. Alle Rechte vorbehalten.
+          © {new Date().getFullYear()} SCHACHSERVICE. {t("footer.rights")}
         </p>
         <nav className="flex items-center gap-4 flex-wrap justify-center" aria-label="Rechtliches">
           {legal.map((l) => (

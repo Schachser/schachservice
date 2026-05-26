@@ -3,17 +3,21 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X, Phone, ArrowRight } from "lucide-react";
+import { ChevronDown, Menu, X, Phone, ArrowRight, Zap } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { LEAD_URL } from "@/lib/constants";
+import { LEAD_URL, BLITZANGEBOT_URL } from "@/lib/constants";
+import { useLang } from "@/context/LanguageProvider";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 const navItems = [
   {
     label: "Leistungen",
+    labelKey: "nav.services",
     href: "/leistungen",
     columns: [
       {
         heading: "Umzug & Transport",
+        headingKey: "nav.col.moving",
         items: [
           { label: "Privatumzug",      href: "/leistungen/lokalumzug" },
           { label: "Fernumzug",        href: "/leistungen/fernumzug" },
@@ -25,6 +29,7 @@ const navItems = [
       },
       {
         heading: "Weitere Services",
+        headingKey: "nav.col.extra",
         items: [
           { label: "Möbelmontage",    href: "/leistungen/moebelmontage" },
           { label: "Einpackservice",  href: "/leistungen/einpackservice" },
@@ -36,6 +41,7 @@ const navItems = [
       },
       {
         heading: "Pakete",
+        headingKey: "nav.col.packages",
         items: [
           { label: "Basic Paket",    href: "/preise#basic" },
           { label: "Komfort Paket",  href: "/preise#komfort" },
@@ -48,10 +54,12 @@ const navItems = [
   },
   {
     label: "Regionen",
+    labelKey: "nav.regions",
     href: "/regionen",
     columns: [
       {
         heading: "Baden-Württemberg",
+        headingKey: "nav.col.bw",
         items: [
           { label: "Mannheim",     href: "/regionen/mannheim" },
           { label: "Heidelberg",   href: "/regionen/heidelberg" },
@@ -62,6 +70,7 @@ const navItems = [
       },
       {
         heading: "Rheinland-Pfalz",
+        headingKey: "nav.col.rlp",
         items: [
           { label: "Ludwigshafen", href: "/regionen/ludwigshafen" },
           { label: "Frankenthal",  href: "/regionen/frankenthal" },
@@ -71,6 +80,7 @@ const navItems = [
       },
       {
         heading: "Gesamtregion",
+        headingKey: "nav.col.metro",
         items: [
           { label: "Metropolregion Rhein-Neckar", href: "/regionen/rhein-neckar" },
           { label: "Alle Regionen",               href: "/regionen" },
@@ -78,12 +88,12 @@ const navItems = [
       },
     ],
   },
-] as const;
+];
 
 const simpleItems = [
-  { label: "Preise",   href: "/preise" },
-  { label: "Über uns", href: "/ueber-uns" },
-  { label: "Kontakt",  href: "/kontakt" },
+  { label: "Preise",   labelKey: "nav.prices",  href: "/preise" },
+  { label: "Über uns", labelKey: "nav.about",   href: "/ueber-uns" },
+  { label: "Kontakt",  labelKey: "nav.contact", href: "/kontakt" },
 ];
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -106,6 +116,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen]         = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { t } = useLang();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -134,27 +145,27 @@ export function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-white shadow-[0_1px_20px_rgba(7,17,31,0.08)] border-b border-navy/6"
-            : "bg-white/96 backdrop-blur-sm border-b border-navy/5"
+            ? "bg-[#FBFAF7]/98 backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,0.06),0_2px_16px_rgba(0,0,0,0.04)]"
+            : "bg-[#FBFAF7]/90 backdrop-blur-xl border-b border-black/[0.05]"
         )}
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.55, ease }}
       >
         <nav
-          className="mx-auto max-w-7xl px-5 lg:px-8 flex items-center justify-between h-16"
+          className="mx-auto max-w-7xl px-5 lg:px-8 flex items-center justify-between h-14"
           aria-label="Hauptnavigation"
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
-            <ChessKnightLogo className="w-7 h-7 text-gold transition-transform duration-300 group-hover:scale-105" />
-            <span className="font-heading text-[0.92rem] font-semibold tracking-widest text-navy uppercase">
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0 group">
+            <ChessKnightLogo className="w-6 h-6 text-gold transition-transform duration-300 group-hover:scale-105" />
+            <span className="font-heading text-[0.87rem] font-semibold tracking-[0.13em] text-[#0F172A] uppercase">
               Schachservice
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden lg:flex items-center gap-0.5">
+          <div className="hidden lg:flex items-center">
             {navItems.map((item) => (
               <div
                 key={item.label}
@@ -164,19 +175,19 @@ export function Navbar() {
               >
                 <button
                   className={cn(
-                    "flex items-center gap-1 px-3.5 py-2 text-sm font-body font-medium rounded-lg transition-colors duration-200",
+                    "flex items-center gap-[5px] px-3.5 py-2 text-[13px] font-body font-medium rounded-lg transition-colors duration-200",
                     activeDropdown === item.label
-                      ? "text-gold bg-gold/5"
-                      : "text-navy/65 hover:text-navy hover:bg-navy/4"
+                      ? "text-[#1d1d1f]"
+                      : "text-[#1d1d1f]/55 hover:text-[#1d1d1f]"
                   )}
                   aria-expanded={activeDropdown === item.label}
                   aria-haspopup="true"
                   onClick={() => setActiveDropdown(activeDropdown === item.label ? null : item.label)}
                 >
-                  {item.label}
+                  {t(item.labelKey)}
                   <ChevronDown
                     className={cn(
-                      "w-3.5 h-3.5 transition-transform duration-200",
+                      "w-[11px] h-[11px] transition-transform duration-200",
                       activeDropdown === item.label && "rotate-180"
                     )}
                   />
@@ -189,21 +200,21 @@ export function Navbar() {
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[660px] bg-white rounded-xl shadow-[0_8px_40px_rgba(7,17,31,0.12)] border border-navy/6 p-6 grid grid-cols-3 gap-6"
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[660px] bg-[#FBFAF7]/98 backdrop-blur-xl rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.10),0_1px_0_rgba(0,0,0,0.04)] border border-black/[0.06] p-6 grid grid-cols-3 gap-6"
                       onMouseEnter={() => openDropdown(item.label)}
                       onMouseLeave={scheduleClose}
                     >
                       {item.columns.map((col) => (
                         <div key={col.heading}>
-                          <p className="text-[10px] font-body font-bold tracking-[0.2em] uppercase text-gold/80 mb-3">
-                            {col.heading}
+                          <p className="text-[10px] font-body font-bold tracking-[0.2em] uppercase text-gold/75 mb-3">
+                            {t(col.headingKey)}
                           </p>
                           <ul className="space-y-0.5">
                             {col.items.map((link) => (
                               <li key={link.href}>
                                 <Link
                                   href={link.href}
-                                  className="flex items-center gap-2 text-sm font-body text-navy/65 hover:text-navy py-1 px-2 rounded-md hover:bg-navy/3 transition-all duration-150 group"
+                                  className="flex items-center gap-2 text-[13px] font-body text-[#1d1d1f]/55 hover:text-[#1d1d1f] py-1.5 px-2 rounded-lg hover:bg-black/[0.03] transition-all duration-150 group"
                                   onClick={() => setActiveDropdown(null)}
                                 >
                                   <ArrowRight className="w-3 h-3 text-gold opacity-0 group-hover:opacity-100 -ml-1 group-hover:ml-0 transition-all duration-150" />
@@ -224,20 +235,22 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-3.5 py-2 text-sm font-body font-medium text-navy/65 hover:text-navy hover:bg-navy/4 rounded-lg transition-colors duration-200"
+                className="px-3.5 py-2 text-[13px] font-body font-medium text-[#1d1d1f]/55 hover:text-[#1d1d1f] rounded-lg transition-colors duration-200"
               >
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             ))}
           </div>
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
+            <LanguageSwitcher />
+            <div className="h-4 w-px bg-black/[0.10]" aria-hidden="true" />
             <a
               href="tel:+4917641726196"
               data-event="phone_click"
               aria-label="Jetzt anrufen"
-              className="flex items-center gap-1.5 text-[0.78rem] font-body font-medium text-navy/50 hover:text-navy/80 transition-colors duration-200"
+              className="flex items-center gap-1.5 text-[12px] font-body font-medium text-[#1d1d1f]/42 hover:text-[#1d1d1f]/70 transition-colors duration-200"
             >
               <Phone className="w-3.5 h-3.5" />
               <span>+49 176 41726196</span>
@@ -247,17 +260,28 @@ export function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               data-event="quote_click"
-              className="inline-flex items-center gap-1.5 h-9 px-5 bg-navy text-ivory text-xs font-body font-semibold rounded-lg hover:bg-slate transition-all duration-200"
+              className="text-[12px] font-body font-medium text-[#1d1d1f]/50 hover:text-[#1d1d1f]/80 transition-colors duration-200"
             >
-              Angebot anfragen
+              {t("nav.quote")}
+            </a>
+            <a
+              href={BLITZANGEBOT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-event="blitzangebot_click"
+              className="inline-flex items-center gap-1.5 h-8 px-4 bg-gold text-navy text-[12px] font-body font-bold rounded-full hover:bg-gold-muted transition-all duration-200"
+              style={{ boxShadow: "0 2px 12px rgba(205,163,73,0.28)" }}
+            >
+              <Zap className="w-3 h-3 fill-navy/25 flex-shrink-0" aria-hidden="true" />
+              {t("nav.blitz")}
             </a>
           </div>
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg text-navy/70 hover:text-navy hover:bg-navy/5 transition-colors duration-200"
+            className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg text-[#1d1d1f]/55 hover:text-[#1d1d1f] hover:bg-black/[0.04] transition-colors duration-200"
             onClick={() => setMobileOpen(true)}
-            aria-label="Menü öffnen"
+            aria-label={t("nav.open_menu")}
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -270,7 +294,7 @@ export function Navbar() {
           <>
             {/* Backdrop */}
             <motion.div
-              className="fixed inset-0 z-40 bg-navy/20 backdrop-blur-[2px]"
+              className="fixed inset-0 z-40 bg-black/15 backdrop-blur-[2px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -284,37 +308,37 @@ export function Navbar() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed top-0 right-0 bottom-0 z-50 w-[88vw] max-w-[340px] bg-white flex flex-col shadow-[0_0_60px_rgba(7,17,31,0.18)]"
+              className="fixed top-0 right-0 bottom-0 z-50 w-[88vw] max-w-[340px] bg-[#FBFAF7] flex flex-col shadow-[0_0_60px_rgba(0,0,0,0.13)]"
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-5 h-16 border-b border-navy/6">
+              <div className="flex items-center justify-between px-5 h-14 border-b border-black/[0.06]">
                 <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2">
                   <ChessKnightLogo className="w-6 h-6 text-gold" />
-                  <span className="font-heading text-[0.88rem] font-semibold tracking-widest text-navy uppercase">
+                  <span className="font-heading text-[0.85rem] font-semibold tracking-[0.13em] text-[#0F172A] uppercase">
                     Schachservice
                   </span>
                 </Link>
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg text-navy/45 hover:text-navy hover:bg-navy/5 transition-colors"
-                  aria-label="Menü schließen"
+                  className="flex items-center justify-center w-8 h-8 rounded-lg text-[#1d1d1f]/38 hover:text-[#1d1d1f] hover:bg-black/[0.04] transition-colors"
+                  aria-label={t("nav.close_menu")}
                 >
-                  <X className="w-4.5 h-4.5" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
               {/* Links */}
               <div className="flex-1 overflow-y-auto">
                 {navItems.map((item) => (
-                  <div key={item.label} className="border-b border-navy/5">
+                  <div key={item.label} className="border-b border-black/[0.05]">
                     <button
                       onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
-                      className="flex w-full items-center justify-between px-5 py-4 text-[0.93rem] font-body font-semibold text-navy hover:text-gold transition-colors"
+                      className="flex w-full items-center justify-between px-5 py-4 text-[0.93rem] font-body font-semibold text-[#0F172A] hover:text-gold transition-colors"
                     >
-                      {item.label}
+                      {t(item.labelKey)}
                       <ChevronDown
                         className={cn(
-                          "w-4 h-4 text-navy/35 transition-transform duration-200",
+                          "w-4 h-4 text-[#1d1d1f]/28 transition-transform duration-200",
                           mobileExpanded === item.label && "rotate-180"
                         )}
                       />
@@ -335,7 +359,7 @@ export function Navbar() {
                                   key={link.href}
                                   href={link.href}
                                   onClick={() => setMobileOpen(false)}
-                                  className="flex items-center gap-2.5 py-2 px-2 text-sm text-navy/60 hover:text-gold rounded-lg hover:bg-gold/5 transition-colors"
+                                  className="flex items-center gap-2.5 py-2 px-2 text-[13px] text-[#1d1d1f]/52 hover:text-gold rounded-lg hover:bg-gold/5 transition-colors"
                                 >
                                   <ArrowRight className="w-3 h-3 text-gold/50 flex-shrink-0" />
                                   {link.label}
@@ -354,22 +378,34 @@ export function Navbar() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center px-5 py-4 text-[0.93rem] font-body font-semibold text-navy hover:text-gold transition-colors border-b border-navy/5"
+                    className="flex items-center px-5 py-4 text-[0.93rem] font-body font-semibold text-[#0F172A] hover:text-gold transition-colors border-b border-black/[0.05]"
                   >
-                    {item.label}
+                    {t(item.labelKey)}
                   </Link>
                 ))}
+
+                {/* Language switcher row */}
+                <div className="flex items-center justify-between px-5 py-4 border-b border-black/[0.05]">
+                  <span className="text-[11px] font-body font-medium tracking-[0.14em] uppercase text-[#1d1d1f]/35">
+                    {t("lang.de") === "Deutsch" ? "Sprache" : t("lang.de") === "English" ? "Language" : "Dil"}
+                  </span>
+                  <LanguageSwitcher variant="pills" />
+                </div>
               </div>
 
               {/* Bottom CTAs */}
-              <div className="p-5 border-t border-navy/6 space-y-2.5 bg-ivory/50">
+              <div className="p-5 border-t border-black/[0.06] space-y-2.5 bg-white/50">
                 <a
-                  href="tel:+4917641726196"
-                  data-event="phone_click"
-                  className="flex items-center justify-center gap-2 w-full h-11 rounded-xl border border-navy/15 text-navy text-sm font-body font-medium hover:border-navy/30 hover:bg-white transition-all duration-200"
+                  href={BLITZANGEBOT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-event="blitzangebot_click"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-center gap-2 w-full h-11 px-6 bg-gold text-navy text-sm font-body font-bold rounded-xl hover:bg-gold-muted transition-all duration-200"
+                  style={{ boxShadow: "0 4px 16px rgba(205,163,73,0.26)" }}
                 >
-                  <Phone className="w-4 h-4 text-navy/50" />
-                  +49 176 41726196
+                  <Zap className="w-4 h-4 fill-navy/25 flex-shrink-0" aria-hidden="true" />
+                  {t("hero.cta_blitz")}
                 </a>
                 <a
                   href={LEAD_URL}
@@ -377,9 +413,18 @@ export function Navbar() {
                   rel="noopener noreferrer"
                   data-event="quote_click"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center w-full h-11 px-6 bg-gold text-navy text-sm font-body font-bold rounded-xl hover:bg-gold-muted transition-all duration-200"
+                  className="flex items-center justify-center w-full h-11 px-6 font-body font-medium text-sm text-[#0F172A] rounded-xl transition-all duration-200 hover:bg-white/70"
+                  style={{ border: "1px solid #DDD4C7", background: "rgba(255,255,255,0.65)" }}
                 >
-                  Kostenloses Angebot anfragen
+                  {t("nav.free_quote")}
+                </a>
+                <a
+                  href="tel:+4917641726196"
+                  data-event="phone_click"
+                  className="flex items-center justify-center gap-2 w-full h-10 rounded-xl text-[#0F172A]/50 text-sm font-body font-medium hover:text-[#0F172A]/80 transition-colors duration-200"
+                >
+                  <Phone className="w-3.5 h-3.5" aria-hidden="true" />
+                  +49 176 41726196
                 </a>
               </div>
             </motion.div>

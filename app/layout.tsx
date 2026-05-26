@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
-import { Navbar }         from "@/components/layout/Navbar";
-import { Footer }         from "@/components/layout/Footer";
-import { SmoothScroll }   from "@/components/providers/SmoothScroll";
-import { StickyMobileBar } from "@/components/layout/StickyMobileBar";
+import { Navbar }           from "@/components/layout/Navbar";
+import { Footer }           from "@/components/layout/Footer";
+import { SmoothScroll }     from "@/components/providers/SmoothScroll";
+import { StickyMobileBar }  from "@/components/layout/StickyMobileBar";
+import { LanguageProvider } from "@/context/LanguageProvider";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -136,15 +137,17 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col antialiased bg-ivory text-navy">
-        <SmoothScroll>
-          <Navbar />
-          {/* pb-16 ensures content is not hidden behind sticky mobile bar */}
-          <main className="flex-1 pb-16 lg:pb-0" id="main-content">
-            {children}
-          </main>
-          <Footer />
-          <StickyMobileBar />
-        </SmoothScroll>
+        <LanguageProvider>
+          <SmoothScroll>
+            <Navbar />
+            {/* pb-16 ensures content is not hidden behind sticky mobile bar */}
+            <main className="flex-1 pb-16 lg:pb-0" id="main-content">
+              {children}
+            </main>
+            <Footer />
+            <StickyMobileBar />
+          </SmoothScroll>
+        </LanguageProvider>
       </body>
     </html>
   );
