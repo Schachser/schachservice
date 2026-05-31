@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Navbar }           from "@/components/layout/Navbar";
 import { Footer }           from "@/components/layout/Footer";
 import { SmoothScroll }     from "@/components/providers/SmoothScroll";
 import { StickyMobileBar }  from "@/components/layout/StickyMobileBar";
 import { LanguageProvider } from "@/context/LanguageProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -136,6 +138,18 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
       </head>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-3ZJQVD3QEJ"
+        strategy="afterInteractive"
+      />
+      <Script id="ga4-init" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-3ZJQVD3QEJ');
+        `}
+      </Script>
       <body className="min-h-full flex flex-col antialiased bg-ivory text-navy">
         <LanguageProvider>
           <SmoothScroll>
@@ -146,6 +160,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <StickyMobileBar />
+            <Analytics />
           </SmoothScroll>
         </LanguageProvider>
       </body>
