@@ -5,7 +5,7 @@ import "./globals.css";
 import { Navbar }           from "@/components/layout/Navbar";
 import { Footer }           from "@/components/layout/Footer";
 import { SmoothScroll }     from "@/components/providers/SmoothScroll";
-import { StickyMobileBar }  from "@/components/layout/StickyMobileBar";
+import { MobileContactBar } from "@/components/MobileContactBar";
 import { LanguageProvider } from "@/context/LanguageProvider";
 import { Analytics } from "@vercel/analytics/react";
 
@@ -160,7 +160,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
-            <StickyMobileBar />
+            <MobileContactBar />
             <Analytics />
           </SmoothScroll>
         </LanguageProvider>
