@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ShieldCheck, Clock, MapPin, CheckCircle, Star, Zap } from "lucide-react";
-import { LEAD_URL, BLITZANGEBOT_URL } from "@/lib/constants";
+import { ArrowRight, ShieldCheck, Clock, MapPin, CheckCircle, Star } from "lucide-react";
+import { LEAD_URL } from "@/lib/constants";
 import { useLang } from "@/context/LanguageProvider";
 
 /* ─────────────────────────────────────────────────────────
@@ -189,26 +189,7 @@ export function HeroSection() {
             {t("hero.sub_m")}
           </motion.p>
 
-          {/* 4 — PRIMARY: Blitzangebot */}
-          <motion.div variants={rise} className="mb-3">
-            <a
-              href={BLITZANGEBOT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="blitzangebot_click"
-              className="flex items-center justify-center gap-2.5 w-full h-[54px] rounded-xl bg-gold text-navy font-body font-bold transition-colors duration-200 active:scale-[0.98] hover:bg-gold-muted"
-              style={{
-                fontSize: "0.98rem",
-                boxShadow:
-                  "0 6px 28px rgba(205,163,73,0.34), 0 2px 8px rgba(205,163,73,0.18)",
-              }}
-            >
-              <Zap className="w-[18px] h-[18px] fill-navy/25 flex-shrink-0" aria-hidden="true" />
-              {t("hero.cta_blitz")}
-            </a>
-          </motion.div>
-
-          {/* 5 — SECONDARY: Angebot */}
+          {/* 4 — PRIMARY: Angebot */}
           <motion.div variants={rise} className="mb-9">
             <a
               href={LEAD_URL}
@@ -323,26 +304,6 @@ export function HeroSection() {
             >
               {t("hero.cta_primary")}
               <ArrowRight className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
-            </motion.a>
-
-            {/* Secondary: Blitzangebot */}
-            <motion.a
-              href={BLITZANGEBOT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="blitzangebot_click"
-              whileHover={{ scale: 1.018, y: -1 }}
-              whileTap={{ scale: 0.975 }}
-              transition={spring}
-              className="inline-flex items-center justify-center gap-2 h-[50px] px-6 rounded-xl font-body font-semibold text-[#0F172A] transition-all duration-200"
-              style={{
-                fontSize: "0.905rem",
-                border: "1px solid rgba(205,163,73,0.40)",
-                background: "rgba(205,163,73,0.07)",
-              }}
-            >
-              <Zap className="w-[15px] h-[15px] text-gold flex-shrink-0" aria-hidden="true" />
-              {t("hero.cta_blitz")}
             </motion.a>
           </motion.div>
 

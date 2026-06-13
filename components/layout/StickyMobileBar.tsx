@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Phone, Zap } from "lucide-react";
+import { Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BLITZANGEBOT_URL } from "@/lib/constants";
 import { useLang } from "@/context/LanguageProvider";
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -37,23 +36,7 @@ export function StickyMobileBar() {
 
           <div className="bg-white/97 backdrop-blur-xl px-4 py-3 flex gap-3">
 
-            {/* Primary: Blitzangebot */}
-            <a
-              href={BLITZANGEBOT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="blitzangebot_click"
-              aria-label="Blitzangebot erhalten"
-              className="flex-1 flex items-center justify-center gap-2 h-12 rounded-xl bg-gold text-navy font-body font-bold text-[0.88rem] transition-colors duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-1 hover:bg-gold-muted"
-              style={{
-                boxShadow: "0 4px 20px rgba(205,163,73,0.28)",
-              }}
-            >
-              <Zap className="w-4 h-4 fill-navy/25 flex-shrink-0" aria-hidden="true" />
-              {t("sticky.blitz")}
-            </a>
-
-            {/* Secondary: Anrufen */}
+            {/* Anrufen */}
             <a
               href="tel:+4917641726196"
               data-event="phone_click"

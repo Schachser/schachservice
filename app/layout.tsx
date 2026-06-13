@@ -142,12 +142,13 @@ export default function RootLayout({
         src="https://www.googletagmanager.com/gtag/js?id=G-3ZJQVD3QEJ"
         strategy="afterInteractive"
       />
-      <Script id="ga4-init" strategy="afterInteractive">
+      <Script id="gtag-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'G-3ZJQVD3QEJ');
+          gtag('config', 'AW-18225967988');
         `}
       </Script>
       <body className="min-h-full flex flex-col antialiased bg-ivory text-navy">

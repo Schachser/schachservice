@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, MapPin, Zap, Clock } from "lucide-react";
+import { ArrowRight, Check, MapPin, Clock } from "lucide-react";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { allFlatServices } from "@/lib/services";
-import { LEAD_URL, BLITZANGEBOT_URL } from "@/lib/constants";
+import { LEAD_URL } from "@/lib/constants";
 import { homepageCities } from "@/lib/cities";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -197,35 +197,12 @@ export default async function ServicePage({ params }: Props) {
             {service.tagline}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
-            {isExpressService ? (
-              /* Blitzangebot as primary CTA for express services */
-              <span className="relative inline-flex shrink-0">
-                <span
-                  className="hidden"
-                  aria-hidden="true"
-                />
-                <a
-                  href={BLITZANGEBOT_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-event="blitzangebot_click"
-                  className="inline-flex items-center gap-2 h-12 px-8 bg-gold text-navy font-body font-bold text-sm rounded-xl transition-all duration-200 hover:bg-gold-muted hover:-translate-y-0.5"
-                >
-                  <Zap className="w-4 h-4 fill-navy/20" aria-hidden="true" />
-                  Blitzangebot erhalten
-                </a>
-              </span>
-            ) : null}
             <a
               href={LEAD_URL}
               target="_blank"
               rel="noopener noreferrer"
               data-event="quote_click"
-              className={`inline-flex items-center gap-2 h-12 px-8 font-body font-semibold text-sm rounded-xl transition-all duration-300 ${
-                isExpressService
-                  ? "border border-ivory/25 text-ivory hover:border-gold/50 hover:text-gold"
-                  : "bg-gold text-navy hover:bg-gold-muted shadow-gold"
-              }`}
+              className="inline-flex items-center gap-2 h-12 px-8 font-body font-semibold text-sm rounded-xl transition-all duration-300 bg-gold text-navy hover:bg-gold-muted shadow-gold"
             >
               Kostenloses Angebot <ArrowRight className="w-4 h-4" />
             </a>
@@ -265,22 +242,6 @@ export default async function ServicePage({ params }: Props) {
                   </p>
                 </div>
               </div>
-              <span className="relative inline-flex shrink-0">
-                <span
-                  className="hidden"
-                  aria-hidden="true"
-                />
-                <a
-                  href={BLITZANGEBOT_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-event="blitzangebot_click"
-                  className="inline-flex items-center gap-2.5 h-12 px-8 rounded-xl bg-gold text-navy font-body font-bold text-sm whitespace-nowrap transition-all duration-200 hover:bg-gold-muted hover:-translate-y-0.5"
-                >
-                  <Zap className="w-4 h-4 fill-navy/20" aria-hidden="true" />
-                  Jetzt Blitzangebot anfordern
-                </a>
-              </span>
             </div>
           </div>
         </section>

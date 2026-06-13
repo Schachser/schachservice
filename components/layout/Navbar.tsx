@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X, Phone, ArrowRight, Zap } from "lucide-react";
+import { ChevronDown, Menu, X, Phone, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { LEAD_URL, BLITZANGEBOT_URL } from "@/lib/constants";
+import { LEAD_URL } from "@/lib/constants";
 import { useLang } from "@/context/LanguageProvider";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
@@ -264,17 +264,6 @@ export function Navbar() {
             >
               {t("nav.quote")}
             </a>
-            <a
-              href={BLITZANGEBOT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-event="blitzangebot_click"
-              className="inline-flex items-center gap-1.5 h-8 px-4 bg-gold text-navy text-[12px] font-body font-bold rounded-full hover:bg-gold-muted transition-all duration-200"
-              style={{ boxShadow: "0 2px 12px rgba(205,163,73,0.28)" }}
-            >
-              <Zap className="w-3 h-3 fill-navy/25 flex-shrink-0" aria-hidden="true" />
-              {t("nav.blitz")}
-            </a>
           </div>
 
           {/* Mobile hamburger */}
@@ -395,18 +384,6 @@ export function Navbar() {
 
               {/* Bottom CTAs */}
               <div className="p-5 border-t border-black/[0.06] space-y-2.5 bg-white/50">
-                <a
-                  href={BLITZANGEBOT_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-event="blitzangebot_click"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full h-11 px-6 bg-gold text-navy text-sm font-body font-bold rounded-xl hover:bg-gold-muted transition-all duration-200"
-                  style={{ boxShadow: "0 4px 16px rgba(205,163,73,0.26)" }}
-                >
-                  <Zap className="w-4 h-4 fill-navy/25 flex-shrink-0" aria-hidden="true" />
-                  {t("hero.cta_blitz")}
-                </a>
                 <a
                   href={LEAD_URL}
                   target="_blank"
