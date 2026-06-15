@@ -139,7 +139,7 @@ export default function RootLayout({
         />
       </head>
       <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-3ZJQVD3QEJ"
+        src="https://www.googletagmanager.com/gtag/js?id=AW-18225967988"
         strategy="afterInteractive"
       />
       <Script id="gtag-init" strategy="afterInteractive">
@@ -147,8 +147,8 @@ export default function RootLayout({
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-3ZJQVD3QEJ');
           gtag('config', 'AW-18225967988');
+          gtag('config', 'G-3ZJQVD3QEJ');
         `}
       </Script>
       <body className="min-h-full flex flex-col antialiased bg-ivory text-navy">
