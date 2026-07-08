@@ -21,7 +21,7 @@ export default function DatenschutzPage() {
           </h2>
           <p>
             SCHACHSERVICE GmbH<br />
-            Musterstraße 1, 68161 Mannheim<br />
+            Draisstraße 69, 68169 Mannheim<br />
             info@schachservice.com
           </p>
           <p>
