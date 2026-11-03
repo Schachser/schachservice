@@ -146,12 +146,12 @@ export function Footer() {
                 +49 176 41726196
               </a>
               <a
-                href="mailto:info@schachservice.com"
-                aria-label="E-Mail: info@schachservice.com"
+                href="mailto:info@schachservice.de"
+                aria-label="E-Mail: info@schachservice.de"
                 className="flex items-center gap-3 text-ivory/65 hover:text-gold transition-colors duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
               >
                 <Mail className="w-4 h-4 text-gold/60 group-hover:text-gold transition-colors flex-shrink-0" aria-hidden="true" />
-                info@schachservice.com
+                info@schachservice.de
               </a>
               <span className="flex items-center gap-3 text-ivory/65">
                 <MapPin className="w-4 h-4 text-gold/60 flex-shrink-0" aria-hidden="true" />

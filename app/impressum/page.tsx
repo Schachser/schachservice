@@ -37,8 +37,8 @@ export default function ImpressumPage() {
               </a>
               <br />
               E-Mail:{" "}
-              <a href="mailto:info@schachservice.com" className="text-navy hover:underline">
-                info@schachservice.com
+              <a href="mailto:info@schachservice.de" className="text-navy hover:underline">
+                info@schachservice.de
               </a>
             </p>
           </div>

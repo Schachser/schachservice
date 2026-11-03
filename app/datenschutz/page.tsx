@@ -22,7 +22,7 @@ export default function DatenschutzPage() {
           <p>
             SCHACHSERVICE GmbH<br />
             Draisstraße 69, 68169 Mannheim<br />
-            info@schachservice.com
+            info@schachservice.de
           </p>
           <p>
             Die vollständige Datenschutzerklärung wird hier ergänzt.

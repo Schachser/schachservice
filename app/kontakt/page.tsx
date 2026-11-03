@@ -24,8 +24,8 @@ const contactDetails = [
   {
     icon: Mail,
     label: "E-Mail",
-    value: "info@schachservice.com",
-    href: "mailto:info@schachservice.com",
+    value: "info@schachservice.de",
+    href: "mailto:info@schachservice.de",
     event: undefined,
   },
   {

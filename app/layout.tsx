@@ -73,7 +73,7 @@ const localBusinessSchema = {
     "Premium-Umzugsunternehmen in Mannheim und der Metropolregion Rhein-Neckar. Festpreisgarantie, über 15 Jahre Erfahrung, vollversichert.",
   url: "https://schachservice.de",
   telephone: "+4917641726196",
-  email: "info@schachservice.com",
+  email: "info@schachservice.de",
   priceRange: "€€",
   currenciesAccepted: "EUR",
   paymentAccepted: "Überweisung, Bar, EC-Karte",
